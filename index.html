@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Our Weekly Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F4F6F2; --surface:#FFFFFF; --ink:#1B2420; --muted:#5F6B65; --line:#DDE3DD;
+  --accent:#2F6B4F; --accent-soft:#E3EFE7; --new:#B8741A; --new-soft:#FBEEDB; --today:#2F6B4F; --out:#8A4FB5; --out-soft:#F1E8F8; --treat:#B23A3A; --treat-soft:#F9E5E3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#121815; --surface:#1A221E; --ink:#E7EDE9; --muted:#9AA7A0; --line:#2C3832;
+    --accent:#7CC3A0; --accent-soft:#20332A; --new:#F0B865; --new-soft:#3A2E1C; --today:#7CC3A0; --out:#C9A2EA; --out-soft:#2E2438; --treat:#F08C84; --treat-soft:#3A2222;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#121815; --surface:#1A221E; --ink:#E7EDE9; --muted:#9AA7A0; --line:#2C3832;
+  --accent:#7CC3A0; --accent-soft:#20332A; --new:#F0B865; --new-soft:#3A2E1C; --today:#7CC3A0; --out:#C9A2EA; --out-soft:#2E2438; --treat:#F08C84; --treat-soft:#3A2222;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font:15px/1.5 Figtree,system-ui,-apple-system,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:28px 56px}
+header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;margin-bottom:22px}
+h1{font-family:"Bricolage Grotesque",Figtree,system-ui,sans-serif;font-weight:800;font-size:clamp(30px,5vw,44px);line-height:1.05;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.sub{color:var(--muted);margin:6px 0 0;max-width:60ch}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+button{font:600 14px Figtree,system-ui,sans-serif;border-radius:999px;padding:9px 16px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--ground)}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px;margin-bottom:16px;align-items:center}
+.chip{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:5px;background:var(--new-soft);color:var(--new);vertical-align:1px}
+.week{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.day{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 16px 6px}
+.day.is-today{border-color:var(--today);box-shadow:0 0 0 1px var(--today)}
+.day h2{font-family:"Bricolage Grotesque",Figtree,sans-serif;font-weight:600;font-size:20px;margin:0 0 10px;display:flex;justify-content:space-between;align-items:baseline}
+.day h2 small{font:600 11px Figtree,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--today)}
+.meal{border-top:1px solid var(--line);padding:10px 0}
+.meal h3{margin:0 0 4px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.chip.easy{background:var(--accent-soft);color:var(--accent)}
+.chip.out{background:var(--out-soft);color:var(--out)}
+.chip.treat{background:var(--treat-soft);color:var(--treat)}
+.meal li.dk::before{border-radius:2px;background:var(--muted)}
+.meal em{font-style:normal;color:var(--muted);font-size:13px}
+.swaps{margin-top:40px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.swaps h2{font-family:"Bricolage Grotesque",Figtree,sans-serif;font-size:24px;margin:0 0 6px}
+.swaps table{border-collapse:collapse;width:100%;margin-top:10px}
+.swaps th,.swaps td{text-align:left;padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+.swaps th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);border-top:0}
+.tbl{overflow-x:auto}
+.meal ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.meal li{display:flex;gap:8px;align-items:baseline}
+.meal li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);transform:translateY(-2px)}
+.meal li.alt::before{background:transparent;border:1.5px solid var(--accent)}
+section.menu{margin-top:40px}
+section.menu h2{font-family:"Bricolage Grotesque",Figtree,sans-serif;font-size:26px;margin:0 0 4px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;margin-top:16px}
+.cols h3{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.cols ul{margin:0;padding-left:18px;display:grid;gap:3px}
+.note{margin-top:28px;color:var(--muted);font-size:13px}
+@media (prefers-reduced-motion:no-preference){.day{transition:border-color .2s}}
+</style>
+<style>body{margin:0}img{max-width:100%}</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Our Weekly Menu</h1>
+      <p class="sub">Two or three options for every meal, pulled from the foods we already eat plus some new ideas, easy meals and takeout nights, with a drink plan for lunch and dinner. Tap Shuffle for a fresh week.</p>
+    </div>
+    <div class="actions">
+      <button id="shuffle" class="primary" type="button">Shuffle week</button>
+      <button id="reset" type="button">Back to default</button>
+    </div>
+  </header>
+  <div class="legend">
+    <span>● main pick</span><span>○ alternative</span><span><span class="chip">New</span> suggestion to try</span><span><span class="chip easy">Easy</span> quick to make</span><span><span class="chip out">Takeout</span> fast food night</span><span><span class="chip treat">Treat</span> soda or malt</span>
+  </div>
+  <div class="week" id="week"></div>
+
+
+  <section class="swaps">
+    <h2>Cutting back on soda and malt</h2>
+    <p class="sub">The plan keeps soda or malt to two treat drinks a week. Malt drinks taste less “fizzy-drink” than soda, but they are usually just as sugary, so they count as a treat too.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>Instead of</th><th>Try</th></tr></thead>
+      <tbody>
+        <tr><td>Soda with lunch</td><td>Flavored sparkling water with no sugar. It keeps the fizz.</td></tr>
+        <tr><td>Malt with rice dishes or swallow</td><td>Zobo made lightly sweet, or cold unsweetened iced tea</td></tr>
+        <tr><td>Juice all day</td><td>Juice mixed half and half with water, or water with lemon or cucumber</td></tr>
+        <tr><td>A soda at a fast food stop</td><td>Order water or unsweetened tea, and keep the soda for a treat day</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="menu">
+    <h2>Everything on the menu</h2>
+    <p class="sub">The full list the week is built from.</p>
+    <div class="cols" id="menu"></div>
+  </section>
+  <p class="note">Lunch and dinner share one list, and the plan never repeats the same dish at lunch and dinner on the same day.</p>
+</div>
+
+<script>
+// tags: new = suggestion to try, easy = quick/low effort, out = takeout
+const breakfast = [
+  ["Froot Loops or Cornflakes + banana"],["Jam and buttered toast + orange juice"],["Fried eggs, turkey bacon & home fries"],
+  ["Eggo vanilla waffles + grapes"],["Bagel + coffee + apple"],["Oatmeal with banana"],["Pancakes & sausage"],
+  ["Chicken strips + apple juice"],["Lunchables + tangerines"],["Fried eggs & toast + coffee"],["Pancakes, turkey bacon & orange juice"],
+  ["Yam & egg sauce","new"],["Dodo (fried plantain) & scrambled eggs","new"],["Moi moi + tea","new"],
+  ["Greek yogurt parfait with berries","new"],["Breakfast burrito (egg, sausage, potato)","new"],
+  ["French toast + fruit","new"],["Banana & berry smoothie","new"]
+];
+const mains = [
+  ["Rice & stew with salmon + plantain"],["Rice & stew with steak + plantain"],["Rice & stew, Timi's Peruvian special + plantain"],
+  ["Jollof rice"],["Mashed potatoes & steak"],["Mashed potatoes & salmon"],["Huo Guo special"],["Kale salad"],
+  ["Spaghetti with salmon (regular or Cajun)"],["Penne with grilled chicken (regular or Cajun)"],["Spaghetti with steak (Cajun)"],
+  ["Pounded yam & efo"],["Eba & efo"],["Yam & fried eggs with mackerel"],["Yam with stew"],
+  ["Fried rice & chicken wings"],["Chipotle avocado sandwich"],["Tuna sandwich"],["Pot roast & mashed potatoes"],["Pepper steak & rice"],["Sausage & pepper pasta"],
+  ["Popeyes chicken","out"],["Hip Hop Chicken","out"],["Panera soup + half sandwich","out"],
+  ["Egusi soup & pounded yam","new"],["Ofada rice & ayamase stew","new"],["Beans & plantain (ewa agoyin)","new"],
+  ["Chicken shawarma wrap","new"],["Grilled chicken rice bowl","new"],["Beef & veggie stir-fry","new"],
+  ["Baked salmon & roasted veggies","new"],["Shrimp fried rice","new"],["Chicken or beef tacos","new"],["Jollof rice & moi moi","new"],
+  ["Indomie noodles with egg & veggies","easy"],["Rotisserie chicken & rice","easy"],["Chicken quesadilla","easy"],
+  ["Grilled cheese & tomato soup","easy"],["Sheet-pan chicken & potatoes","easy"]
+];
+const drinks = [
+  ["Water with lemon or cucumber"],["Sparkling water, flavored with no sugar"],["Unsweetened iced tea"],
+  ["Zobo (hibiscus), lightly sweetened"],["Coconut water"],["Milk"],["Juice mixed half and half with water"]
+];
+const treats = [["Malt drink","treat"],["Soda","treat"]];
+const days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const find=(list,name)=>{const i=list.findIndex(x=>x[0]===name);if(i<0)throw new Error(name);return i};
+const B=n=>find(breakfast,n), M=n=>find(mains,n), D=n=>find(drinks,n);
+
+const defaultWeek=[
+  {b:[B("Fried eggs, turkey bacon & home fries"),B("Froot Loops or Cornflakes + banana")],
+   l:[M("Chipotle avocado sandwich"),M("Kale salad")], d:[M("Rice & stew with salmon + plantain"),M("Sheet-pan chicken & potatoes")],
+   dr:[D("Water with lemon or cucumber"),D("Unsweetened iced tea")]},
+  {b:[B("Bagel + coffee + apple"),B("Oatmeal with banana")],
+   l:[M("Tuna sandwich"),M("Chicken shawarma wrap")], d:[M("Jollof rice"),M("Pounded yam & efo")],
+   dr:[D("Sparkling water, flavored with no sugar"),D("Zobo (hibiscus), lightly sweetened")]},
+  {b:[B("Eggo vanilla waffles + grapes"),B("Yam & egg sauce"),B("Jam and buttered toast + orange juice")],
+   l:[M("Panera soup + half sandwich"),M("Sausage & pepper pasta")], d:[M("Mashed potatoes & steak"),M("Egusi soup & pounded yam")],
+   dr:[D("Water with lemon or cucumber"),D("Milk")]},
+  {b:[B("Fried eggs & toast + coffee"),B("Greek yogurt parfait with berries")],
+   l:[M("Fried rice & chicken wings"),M("Indomie noodles with egg & veggies")], d:[M("Eba & efo"),M("Baked salmon & roasted veggies")],
+   dr:[D("Coconut water"),D("Unsweetened iced tea")]},
+  {b:[B("Pancakes & sausage"),B("Dodo (fried plantain) & scrambled eggs")],
+   l:[M("Hip Hop Chicken"),M("Grilled chicken rice bowl")], d:[M("Huo Guo special"),M("Shrimp fried rice")],
+   dr:[D("Sparkling water, flavored with no sugar"),"t0"]},
+  {b:[B("Pancakes, turkey bacon & orange juice"),B("French toast + fruit"),B("Chicken strips + apple juice")],
+   l:[M("Yam & fried eggs with mackerel"),M("Grilled cheese & tomato soup")], d:[M("Pepper steak & rice"),M("Rice & stew, Timi's Peruvian special + plantain")],
+   dr:[D("Juice mixed half and half with water"),D("Water with lemon or cucumber")]},
+  {b:[B("Breakfast burrito (egg, sausage, potato)"),B("Moi moi + tea"),B("Lunchables + tangerines")],
+   l:[M("Popeyes chicken"),M("Chicken or beef tacos")], d:[M("Pot roast & mashed potatoes"),M("Mashed potatoes & salmon")],
+   dr:["t1",D("Zobo (hibiscus), lightly sweetened")]}
+];
+
+let week = defaultWeek;
+const CHIP={new:'<span class="chip">New</span>',easy:'<span class="chip easy">Easy</span>',out:'<span class="chip out">Takeout</span>',treat:'<span class="chip treat">Treat</span>'};
+const label=x=>`${x[0]}${x[1]?' '+CHIP[x[1]]:''}`;
+const drinkItem=v=>typeof v==='string'?treats[+v.slice(1)]:drinks[v];
+function li(item,alt){return `<li class="${alt?'alt':''}"><span>${label(item)}</span></li>`}
+function mealBlock(name,list,idxs){return `<div class="meal"><h3>${name}</h3><ul>${idxs.map((i,n)=>li(list[i],n>0)).join('')}</ul></div>`}
+function drinkBlock(dr){return `<div class="meal drinks"><h3>Drinks</h3><ul><li class="dk"><span><em>Lunch:</em> ${label(drinkItem(dr[0]))}</span></li><li class="dk"><span><em>Dinner:</em> ${label(drinkItem(dr[1]))}</span></li></ul></div>`}
+function render(){
+  const today=(new Date().getDay()+6)%7;
+  document.getElementById('week').innerHTML=week.map((d,i)=>`
+    <article class="day${i===today?' is-today':''}"><h2>${days[i]}${i===today?'<small>Today</small>':''}</h2>
+    ${mealBlock('Breakfast',breakfast,d.b)}${mealBlock('Lunch',mains,d.l)}${mealBlock('Dinner',mains,d.d)}${drinkBlock(d.dr)}</article>`).join('');
+}
+function pick(n,len,avoid=[]){const out=[];while(out.length<n){const r=Math.floor(Math.random()*len);if(!out.includes(r)&&!avoid.includes(r))out.push(r)}return out}
+function shuffleWeek(){
+  const treatSlots=pick(2,14); // two treat drinks per week
+  week=days.map((_,i)=>{const l=pick(2,mains.length);
+    const dr=pick(2,drinks.length).map((v,j)=>treatSlots.includes(i*2+j)?'t'+Math.floor(Math.random()*2):v);
+    return{b:pick(Math.random()<.5?2:3,breakfast.length),l,d:pick(2,mains.length,l),dr}});
+  try{localStorage.setItem('menuWeek3',JSON.stringify(week))}catch(e){}
+  render();
+}
+document.getElementById('shuffle').addEventListener('click',shuffleWeek);
+document.getElementById('reset').addEventListener('click',()=>{week=defaultWeek;try{localStorage.removeItem('menuWeek3')}catch(e){}render()});
+try{localStorage.removeItem('menuWeek')}catch(e){}
+try{const s=JSON.parse(localStorage.getItem('menuWeek3'));if(Array.isArray(s)&&s.length===7&&s[0].dr)week=s}catch(e){}
+render();
+
+const list=(t,arr)=>`<div><h3>${t}</h3><ul>${arr.map(x=>`<li>${label(x)}</li>`).join('')}</ul></div>`;
+document.getElementById('menu').innerHTML=list('Breakfast',breakfast)+list('Lunch & dinner',mains)+list('Drinks',drinks.concat(treats));
+</script>
+
+</body>
+</html>
